@@ -1,1 +1,67 @@
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phone Security Demo</title>
+<style>
+body {
+  background:#050505;
+  color:#00ff66;
+  font-family:monospace;
+  text-align:center;
+  padding:25px 12px;
+}
+h1 {color:red;}
+.timer {
+  color:red;
+  font-size:65px;
+  font-weight:bold;
+  margin:25px;
+}
+.panel {
+  border:1px solid #00ff66;
+  padding:20px;
+  border-radius:12px;
+}
+#message {font-size:18px;}
+</style>
+</head>
+<body>
+<h1>PHONE SECURITY DEMO</h1>
+<div class="panel">
+  <div class="timer" id="timer">60</div>
+  <div id="message">PRANK DEMO STARTING...</div>
+  <p>SIMULATED SCAN — NO DATA ACCESS</p>
+</div>
+<script>
+let seconds = 60;
+const messages = [
+ "CONNECTING...",
+ "SIMULATING PHONE SCAN...",
+ "CHECKING DEMO STATUS...",
+ "ALMOST FINISHED..."
+];
+let step = 0;
+const timer = document.getElementById("timer");
+const message = document.getElementById("message");
+
+const scan = setInterval(() => {
+  if (seconds <= 0) {
+    clearInterval(scan);
+    timer.textContent = "DONE!";
+    message.textContent = "😂 YOU GOT PRANKED!";
+    return;
+  }
+  seconds--;
+  timer.textContent = seconds;
+  if (seconds % 15 === 0) {
+    message.textContent = messages[step % messages.length];
+    step++;
+  }
+}, 1000);
+</script>
+</body>
+</html>
