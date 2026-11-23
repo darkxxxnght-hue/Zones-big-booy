@@ -1,67 +1,120 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Phone Security Demo</title>
+<title>Security System Demo</title>
+
 <style>
 body {
-  background:#050505;
-  color:#00ff66;
-  font-family:monospace;
-  text-align:center;
-  padding:25px 12px;
+  background: #050505;
+  color: #ff3030;
+  font-family: monospace;
+  text-align: center;
+  padding: 30px 12px;
 }
-h1 {color:red;}
-.timer {
-  color:red;
-  font-size:65px;
-  font-weight:bold;
-  margin:25px;
+h1 {
+  text-shadow: 0 0 12px red;
 }
 .panel {
-  border:1px solid #00ff66;
-  padding:20px;
-  border-radius:12px;
+  border: 2px solid red;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 18px #900;
 }
-#message {font-size:18px;}
+.timer {
+  font-size: 65px;
+  font-weight: bold;
+  color: #ff2222;
+  margin: 25px;
+}
+#message {
+  font-size: 18px;
+  min-height: 45px;
+}
+button {
+  background: #220000;
+  color: white;
+  border: 1px solid red;
+  padding: 13px 25px;
+  border-radius: 8px;
+  font-size: 17px;
+}
+.small {
+  color: #aaa;
+  font-size: 12px;
+}
 </style>
 </head>
+
 <body>
-<h1>PHONE SECURITY DEMO</h1>
+
+<h1>⚠ SECURITY SYSTEM ⚠</h1>
+
 <div class="panel">
   <div class="timer" id="timer">60</div>
-  <div id="message">PRANK DEMO STARTING...</div>
-  <p>SIMULATED SCAN — NO DATA ACCESS</p>
+  <div id="message">SYSTEM READY...</div>
+  <p class="small">SIMULATED SCAN — NO DEVICE ACCESS</p>
+  <button id="start">START DEMO</button>
 </div>
+
 <script>
 let seconds = 60;
-const messages = [
- "CONNECTING...",
- "SIMULATING PHONE SCAN...",
- "CHECKING DEMO STATUS...",
- "ALMOST FINISHED..."
-];
-let step = 0;
-const timer = document.getElementById("timer");
-const message = document.getElementById("message");
 
-const scan = setInterval(() => {
-  if (seconds <= 0) {
-    clearInterval(scan);
-    timer.textContent = "DONE!";
-    message.textContent = "😂 YOU GOT PRANKED!";
-    return;
-  }
-  seconds--;
-  timer.textContent = seconds;
-  if (seconds % 15 === 0) {
-    message.textContent = messages[step % messages.length];
-    step++;
-  }
-}, 1000);
+function speak(text) {
+  if (!("speechSynthesis" in window)) return;
+
+  speechSynthesis.cancel();
+
+  const voice = new SpeechSynthesisUtterance(text);
+  voice.lang = "en-US";
+  voice.rate = 0.9;
+  voice.pitch = 0.8;
+
+  speechSynthesis.speak(voice);
+}
+
+const messages = [
+  "INITIALIZING SYSTEM...",
+  "RUNNING SIMULATED SCAN...",
+  "CHECKING DEMO STATUS...",
+  "PLEASE WAIT...",
+  "FINAL COUNTDOWN..."
+];
+
+document.getElementById("start").onclick = () => {
+  const button = document.getElementById("start");
+  const timer = document.getElementById("timer");
+  const message = document.getElementById("message");
+
+  button.disabled = true;
+  button.textContent = "SCAN RUNNING";
+
+  speak("System scan started");
+
+  let step = 0;
+
+  const scan = setInterval(() => {
+    seconds--;
+    timer.textContent = seconds;
+
+    if (seconds % 12 === 0 && seconds > 0) {
+      message.textContent = messages[step % messages.length];
+      step++;
+      speak(message.textContent);
+    }
+
+    if (seconds <= 0) {
+      clearInterval(scan);
+      timer.textContent = "DONE!";
+      message.textContent = "😂 JUST A PRANK!";
+      speak("Warning. Scan complete. Just a prank!");
+      button.textContent = "DEMO FINISHED";
+    }
+  }, 1000);
+};
 </script>
+
 </body>
 </html>
