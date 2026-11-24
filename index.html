@@ -1,119 +1,165 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="so">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Security System Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZONES HACKER</title>
 
 <style>
-body {
-  background: #050505;
-  color: #ff3030;
-  font-family: monospace;
-  text-align: center;
-  padding: 30px 12px;
+body{
+background:#000;
+color:#00ff00;
+font-family:Consolas,monospace;
+text-align:center;
+margin:0;
+padding:0;
+overflow-x:hidden;
 }
-h1 {
-  text-shadow: 0 0 12px red;
+
+h1{
+font-size:60px;
+text-shadow:0 0 20px #00ff00;
+margin-top:20px;
+animation: glow 2s infinite alternate;
 }
-.panel {
-  border: 2px solid red;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 0 18px #900;
+
+@keyframes glow{
+from{opacity:.7;}
+to{opacity:1;}
 }
-.timer {
-  font-size: 65px;
-  font-weight: bold;
-  color: #ff2222;
-  margin: 25px;
+
+#clock{
+font-size:20px;
+margin:10px;
 }
-#message {
-  font-size: 18px;
-  min-height: 45px;
+
+#country{
+font-size:28px;
+margin:20px;
+color:#7fff7f;
 }
-button {
-  background: #220000;
-  color: white;
-  border: 1px solid red;
-  padding: 13px 25px;
-  border-radius: 8px;
-  font-size: 17px;
+
+#terminal{
+width:90%;
+margin:auto;
+text-align:left;
+border:1px solid #00ff00;
+padding:15px;
+height:220px;
+overflow:auto;
+box-shadow:0 0 20px #00ff00;
 }
-.small {
-  color: #aaa;
-  font-size: 12px;
+
+#map{
+white-space:pre;
+font-size:10px;
+line-height:1;
+color:#00ff00;
+margin:20px auto;
 }
 </style>
 </head>
 
 <body>
 
-<h1>⚠ SECURITY SYSTEM ⚠</h1>
+<h1>ZONES HACKER</h1>
 
-<div class="panel">
-  <div class="timer" id="timer">60</div>
-  <div id="message">SYSTEM READY...</div>
-  <p class="small">SIMULATED SCAN — NO DEVICE ACCESS</p>
-  <button id="start">START DEMO</button>
+<div id="clock"></div>
+
+<div id="country">Loading...</div>
+
+<div id="map">
+           .-""""-.
+      .---' WORLD '---.
+   .-'                 '-.
+ .'      NORTH           '.
+|       AMERICA           |
+|                          |
+| EUROPE     ASIA         |
+|                          |
+| AFRICA   OCEANIA        |
+ '.       SOUTH         .'
+   '-.   AMERICA     .-'
+      '------------'
 </div>
 
+<div id="terminal"></div>
+
 <script>
-let seconds = 60;
 
-function speak(text) {
-  if (!("speechSynthesis" in window)) return;
+// Codka soo dhaweynta
+window.onload = function(){
 
-  speechSynthesis.cancel();
+const msg = new SpeechSynthesisUtterance(
+"Waxaad ku jirtaa page Zones. Soo dhawoow walaal."
+);
 
-  const voice = new SpeechSynthesisUtterance(text);
-  voice.lang = "en-US";
-  voice.rate = 0.9;
-  voice.pitch = 0.8;
+msg.lang = "so-SO";
+msg.rate = 0.9;
 
-  speechSynthesis.speak(voice);
-}
+speechSynthesis.speak(msg);
 
-const messages = [
-  "INITIALIZING SYSTEM...",
-  "RUNNING SIMULATED SCAN...",
-  "CHECKING DEMO STATUS...",
-  "PLEASE WAIT...",
-  "FINAL COUNTDOWN..."
+};
+
+// Taariikh iyo Waqti
+setInterval(()=>{
+document.getElementById("clock").innerHTML =
+"📅 " + new Date().toLocaleString();
+},1000);
+
+// Wadamada
+const countries = [
+"Somalia",
+"Saudi Arabia",
+"Turkey",
+"Qatar",
+"United Kingdom",
+"United States",
+"Kenya",
+"Ethiopia",
+"Egypt",
+"Germany",
+"France",
+"Japan",
+"China"
 ];
 
-document.getElementById("start").onclick = () => {
-  const button = document.getElementById("start");
-  const timer = document.getElementById("timer");
-  const message = document.getElementById("message");
+let c = 0;
 
-  button.disabled = true;
-  button.textContent = "SCAN RUNNING";
+setInterval(()=>{
+document.getElementById("country").innerHTML =
+"🌍 " + countries[c];
+c=(c+1)%countries.length;
+},2000);
 
-  speak("System scan started");
+// AI Messages
+const messages=[
+"[AI] Zones System Online",
+"[AI] World Network Ready",
+"[AI] AI Assistant Connected",
+"[AI] Time Synchronization Complete",
+"[AI] World Monitor Active",
+"[AI] Somalia Connected",
+"[AI] Saudi Arabia Connected",
+"[AI] Global Status: NORMAL",
+"[AI] Welcome To Zones Hacker"
+];
 
-  let step = 0;
+let i=0;
 
-  const scan = setInterval(() => {
-    seconds--;
-    timer.textContent = seconds;
+function log(){
+if(i<messages.length){
+document.getElementById("terminal").innerHTML +=
+messages[i] + "<br>";
 
-    if (seconds % 12 === 0 && seconds > 0) {
-      message.textContent = messages[step % messages.length];
-      step++;
-      speak(message.textContent);
-    }
+i++;
 
-    if (seconds <= 0) {
-      clearInterval(scan);
-      timer.textContent = "DONE!";
-      message.textContent = "😂 JUST A PRANK!";
-      speak("Warning. Scan complete. Just a prank!");
-      button.textContent = "DEMO FINISHED";
-    }
-  }, 1000);
-};
+setTimeout(log,1500);
+}
+}
+
+log();
+
 </script>
 
 </body>
